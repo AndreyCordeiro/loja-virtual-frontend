@@ -36,13 +36,14 @@ import TimelineDemo from './pages/TimelineDemo';
 import PrimeReact from 'primereact/api';
 import { Tooltip } from 'primereact/tooltip';
 
-import Estado from './pages/cadastros/Estado';
-import Cidade from './pages/cadastros/Cidade';
-import Pessoa from './pages/cadastros/Pessoa';
-import Permissao from './pages/cadastros/Permissao';
-import Produto from './pages/cadastros/Produto';
-import Categoria from './pages/cadastros/Categoria';
-import Marca from './pages/cadastros/Marca';
+import Estado from './pages/Estado';
+import Cidade from './pages/Cidade';
+import Pessoa from './pages/Pessoa';
+import Permissao from './pages/Permissao';
+import Produto from './pages/Produto';
+import Categoria from './pages/Categoria';
+import Marca from './pages/Marca';
+import ProdutoImagens from './pages/ProdutoImagens';
 
 
 import 'primereact/resources/primereact.css';
@@ -53,7 +54,6 @@ import './assets/demo/flags/flags.css';
 import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
 import './App.scss';
-import ProdutoImagens from './pages/cadastros/ProdutoImagens';
 
 
 const App = () => {

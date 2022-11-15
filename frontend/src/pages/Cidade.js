@@ -8,8 +8,8 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import React, { useEffect, useRef, useState } from 'react';
-import { CidadeService } from '../../service/cadastros/CidadeService';
-import { EstadoService } from '../../service/cadastros/EstadoService';
+import { CidadeService } from '../service/CidadeService';
+import { EstadoService } from '../service/EstadoService';
 
 const Cidade = () => {
     let objetoNovo = {

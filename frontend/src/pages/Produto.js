@@ -11,9 +11,9 @@ import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CategoriaService } from '../../service/cadastros/CategoriaService';
-import { MarcaService } from '../../service/cadastros/MarcaService';
-import { ProdutoService } from '../../service/cadastros/ProdutoService';
+import { CategoriaService } from '../service/CategoriaService';
+import { MarcaService } from '../service/MarcaService';
+import { ProdutoService } from '../service/ProdutoService';
 
 
 

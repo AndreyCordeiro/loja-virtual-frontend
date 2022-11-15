@@ -7,7 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import React, { useEffect, useRef, useState } from 'react';
-import { EstadoService } from '../../service/cadastros/EstadoService';
+import { EstadoService } from '../service/EstadoService';
 
 const Estado = () => {
     let objetoNovo = {

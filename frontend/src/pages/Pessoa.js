@@ -11,9 +11,9 @@ import { MultiSelect } from 'primereact/multiselect';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import React, { useEffect, useRef, useState } from 'react';
-import { CidadeService } from '../../service/cadastros/CidadeService';
-import { PermissaoService } from '../../service/cadastros/PermissaoService';
-import { PessoaService } from '../../service/cadastros/PessoaService';
+import { CidadeService } from '../service/CidadeService';
+import { PermissaoService } from '../service/PermissaoService';
+import { PessoaService } from '../service/PessoaService';
 
 
 //{nome:'Frank', permissaoPessoas:[{permissao:{id:55}}]}

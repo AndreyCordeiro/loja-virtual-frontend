@@ -7,7 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import React, { useEffect, useRef, useState } from 'react';
-import { PermissaoService } from '../../service/cadastros/PermissaoService';
+import { PermissaoService } from '../service/PermissaoService';
 
 const Permissao = () => {
     let objetoNovo = {
