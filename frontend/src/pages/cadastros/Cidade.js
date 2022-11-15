@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
-import { Toolbar } from 'primereact/toolbar';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
+import { InputText } from 'primereact/inputtext';
+import { Toast } from 'primereact/toast';
+import { Toolbar } from 'primereact/toolbar';
+import React, { useEffect, useRef, useState } from 'react';
 import { CidadeService } from '../../service/cadastros/CidadeService';
 import { EstadoService } from '../../service/cadastros/EstadoService';
 
 const Cidade = () => {
     let objetoNovo = {
         nome: '',
-        estado:''
+        estado: ''
     };
 
     const [objetos, setObjetos] = useState(null);
@@ -29,10 +29,10 @@ const Cidade = () => {
     const objetoService = new CidadeService();
     const estadoService = new EstadoService();
 
-    useEffect(() => {       
-            estadoService.listarTodos().then(res => {
-                setEstados(res.data);
-            });        
+    useEffect(() => {
+        estadoService.listarTodos().then(res => {
+            setEstados(res.data);
+        });
     }, []);
 
     useEffect(() => {
@@ -95,13 +95,13 @@ const Cidade = () => {
     }
 
     const deleteObjeto = () => {
-    
+
         objetoService.excluir(objeto.id).then(data => {
             toast.current.show({ severity: 'success', summary: 'Sucesso', detail: 'Removido', life: 3000 });
 
             setObjetos(null);
             setObjetoDeleteDialog(false);
-         
+
         });
     }
 
@@ -146,7 +146,7 @@ const Cidade = () => {
         return (
             <>
                 <span className="p-column-title">Estado</span>
-                {rowData.estado && (rowData.estado.nome+'/'+rowData.estado.sigla)}
+                {rowData.estado && (rowData.estado.nome + '/' + rowData.estado.sigla)}
             </>
         );
     }
@@ -183,7 +183,7 @@ const Cidade = () => {
             <Button label="Não" icon="pi pi-times" className="p-button-text" onClick={hideDeleteObjetoDialog} />
             <Button label="Sim" icon="pi pi-check" className="p-button-text" onClick={deleteObjeto} />
         </>
-    ); 
+    );
 
     return (
         <div className="grid crud-demo">
@@ -196,7 +196,7 @@ const Cidade = () => {
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Mostrando {first} de {last}. Total de {totalRecords}"
-                        globalFilter={globalFilter} emptyMessage="Sem objetos cadastrados." header={header} responsiveLayout="scroll">                        
+                        globalFilter={globalFilter} emptyMessage="Sem objetos cadastrados." header={header} responsiveLayout="scroll">
                         <Column field="id" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="nome" header="Nome" sortable body={nomeBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="estado" header="Estado" body={estadoBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
@@ -213,9 +213,9 @@ const Cidade = () => {
 
                         <div className="field">
                             <label htmlFor="nome">Estado</label>
-                            <Dropdown optionLabel="nome" value={objeto.estado} options={estados} filter onChange={(e) => onInputChange(e, 'estado')} placeholder="Selecione um Estado"/>
+                            <Dropdown optionLabel="nome" value={objeto.estado} options={estados} filter onChange={(e) => onInputChange(e, 'estado')} placeholder="Selecione um Estado" />
                         </div>
-                      
+
                     </Dialog>
 
                     <Dialog visible={objetoDeleteDialog} style={{ width: '450px' }} header="Confirmação" modal footer={deleteObjetoDialogFooter} onHide={hideDeleteObjetoDialog}>
@@ -224,8 +224,6 @@ const Cidade = () => {
                             {objeto && <span>Deseja Excluir?</span>}
                         </div>
                     </Dialog>
-
-
                 </div>
             </div>
         </div>
