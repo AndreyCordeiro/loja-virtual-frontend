@@ -1,38 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import { useFormik } from 'formik';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
-import { Toolbar } from 'primereact/toolbar';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { PessoaService } from '../../service/cadastros/PessoaService';
-import { CidadeService } from '../../service/cadastros/CidadeService';
-import { PermissaoService } from '../../service/cadastros/PermissaoService';
-import { Dropdown } from 'primereact/dropdown';
-import { InputMask } from 'primereact/inputmask';
-import { MultiSelect } from 'primereact/multiselect';
+import { Toast } from 'primereact/toast';
+import { Toolbar } from 'primereact/toolbar';
+import React, { useEffect, useRef, useState } from 'react';
+import { MarcaService } from '../../service/cadastros/MarcaService';
 
-
-//{nome:'Frank', permissaoPessoas:[{permissao:{id:55}}]}
-
-const Pessoa = () => {
-
+const Marca = () => {
     let objetoNovo = {
-        nome: '',
-        cidade: null,
-        cpf: '',
-        email: '',
-        endereco: '',
-        cep: '',
-        permissaoPessoas: []
+        nome: ''
     };
 
     const [objetos, setObjetos] = useState(null);
-    const [cidades, setCidades] = useState(null);
-    const [permissoes, setPermissoes] = useState(null);
     const [objetoDialog, setObjetoDialog] = useState(false);
     const [objetoDeleteDialog, setObjetoDeleteDialog] = useState(false);
     const [objeto, setObjeto] = useState(objetoNovo);
@@ -40,52 +22,7 @@ const Pessoa = () => {
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
-    const objetoService = new PessoaService();
-    const cidadeService = new CidadeService();
-    const permissaoService = new PermissaoService();
-
-
-
-    const formik = useFormik({
-        enableReinitialize: true,
-        initialValues: objeto,
-        validate: (data) => {
-            let errors = {};
-
-            if (!data.nome) {
-                errors.nome = 'Nome é obrigatório';
-            }
-
-            if (!data.email) {
-                errors.email = 'Email é obrigatório';
-            }
-            else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(data.email)) {
-                errors.email = 'Email é inválido. Exemplo: jose@gmail.com';
-            }
-
-            return errors;
-        },
-        onSubmit: (data) => {
-            setObjeto(data);
-            saveObjeto();
-            formik.resetForm();
-        }
-    });
-
-    useEffect(() => {
-        cidadeService.listarTodos().then(res => {
-            setCidades(res.data)
-
-        });
-
-        permissaoService.listarTodos().then(res => {
-            let permissoesTemporarias = [];
-            res.data.forEach(element => {
-                permissoesTemporarias.push({ permissao: element });
-            });
-            setPermissoes(permissoesTemporarias);
-        });
-    }, []);
+    const objetoService = new MarcaService();
 
     useEffect(() => {
         if (objetos == null) {
@@ -117,7 +54,7 @@ const Pessoa = () => {
         setSubmitted(true);
 
         if (objeto.nome.trim()) {
-            let _objeto = formik.values;
+            let _objeto = { ...objeto };
             if (objeto.id) {
                 objetoService.alterar(_objeto).then(data => {
                     toast.current.show({ severity: 'success', summary: 'Sucesso', detail: 'Alterado com Sucesso', life: 3000 });
@@ -164,11 +101,6 @@ const Pessoa = () => {
 
         setObjeto(_objeto);
     }
-
-    const isFormFieldValid = (name) => !!(formik.touched[name] && formik.errors[name]);
-    const getFormErrorMessage = (name) => {
-        return isFormFieldValid(name) && <small className="p-error">{formik.errors[name]}</small>;
-    };
 
     const leftToolbarTemplate = () => {
         return (
@@ -223,7 +155,7 @@ const Pessoa = () => {
     const objetoDialogFooter = (
         <>
             <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button type="submit" form="formularioPessoa" label="Salvar" icon="pi pi-check" className="p-button-text" />
+            <Button label="Salvar" icon="pi pi-check" className="p-button-text" onClick={saveObjeto} />
         </>
     );
 
@@ -252,44 +184,14 @@ const Pessoa = () => {
                     </DataTable>
 
                     <Dialog visible={objetoDialog} style={{ width: '450px' }} header="Cadastrar/Editar" modal className="p-fluid" footer={objetoDialogFooter} onHide={hideDialog}>
-                        <form id="formularioPessoa" onSubmit={formik.handleSubmit}>
-                            <div className="field">
-                                <label htmlFor="nome">Nome*</label>
-                                <InputText id="nome" value={formik.values.nome} onChange={formik.handleChange} autoFocus className={classNames({ 'p-invalid': isFormFieldValid('nome') })} />
-                                {getFormErrorMessage('nome')}
-                            </div>
 
-                            <div className="field">
-                                <label htmlFor="cpf">CPF*</label>
-                                <InputMask mask="999.999.999-99" id="cpf" value={formik.values.cpf} onChange={formik.handleChange} />
-                            </div>
+                        <div className="field">
+                            <label htmlFor="nome">Nome</label>
+                            <InputText id="nome" value={objeto.nome} onChange={(e) => onInputChange(e, 'nome')} required autoFocus className={classNames({ 'p-invalid': submitted && !objeto.nome })} />
+                            {submitted && !objeto.name && <small className="p-invalid">Nome é Obrigatório.</small>}
+                        </div>
 
-                            <div className="field">
-                                <label htmlFor="email">E-mail*</label>
-                                <InputText id="email" value={formik.values.email} onChange={formik.handleChange} className={classNames({ 'p-invalid': isFormFieldValid('email') })} />
-                                {getFormErrorMessage('email')}
-                            </div>
 
-                            <div className="field">
-                                <label htmlFor="cep">CEP</label>
-                                <InputMask mask="99999-999" id="cep" value={formik.values.cep} onChange={formik.handleChange} />
-                            </div>
-
-                            <div className="field">
-                                <label htmlFor="endereco">Endereço</label>
-                                <InputText id="endereco" value={formik.values.endereco} onChange={formik.handleChange} />
-                            </div>
-
-                            <div className="field">
-                                <label htmlFor="cidade">Cidade</label>
-                                <Dropdown id="cidade" name="cidade" optionLabel="nome" value={formik.values.cidade} options={cidades} filter onChange={formik.handleChange} placeholder="Selecione uma Cidade" />
-                            </div>
-
-                            <div className="field">
-                                <label htmlFor="permissaoPessoas">Permissões</label>
-                                <MultiSelect dataKey="permissao.id" id="permissaoPessoas" value={formik.values.permissaoPessoas} options={permissoes} onChange={formik.handleChange} optionLabel="permissao.nome" placeholder="Selecione as Permissões" />
-                            </div>
-                        </form>
                     </Dialog>
 
                     <Dialog visible={objetoDeleteDialog} style={{ width: '450px' }} header="Confirmação" modal footer={deleteObjetoDialogFooter} onHide={hideDeleteObjetoDialog}>
@@ -310,4 +212,4 @@ const comparisonFn = function (prevProps, nextProps) {
     return prevProps.location.pathname === nextProps.location.pathname;
 };
 
-export default React.memo(Pessoa, comparisonFn);
+export default React.memo(Marca, comparisonFn);

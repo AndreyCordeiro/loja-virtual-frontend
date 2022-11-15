@@ -7,9 +7,9 @@ import { Button } from 'primereact/button';
 import { Toolbar } from 'primereact/toolbar';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { PermissaoService } from '../../service/cadastros/PermissaoService';
+import { CategoriaService } from '../service/CategoriaService';
 
-const Permissao = () => {
+const Categoria = () => {
     let objetoNovo = {
         nome: ''
     };
@@ -22,7 +22,7 @@ const Permissao = () => {
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
-    const objetoService = new PermissaoService();
+    const objetoService = new CategoriaService();
 
     useEffect(() => {
         if (objetos == null) {
@@ -212,4 +212,4 @@ const comparisonFn = function (prevProps, nextProps) {
     return prevProps.location.pathname === nextProps.location.pathname;
 };
 
-export default React.memo(Permissao, comparisonFn);
+export default React.memo(Categoria, comparisonFn);
