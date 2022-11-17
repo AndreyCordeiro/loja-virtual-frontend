@@ -3,13 +3,8 @@ import axios from 'axios';
 export class EstadoService {
     url = 'http://localhost:8080/api/estado';
 
-
     listarTodos() {
         return axios.get(this.url);
-    }
-
-    buscarId(id) {
-        return axios.get(this.url + id);
     }
 
     inserir(objeto) {
