@@ -1,12 +1,6 @@
 import axios from 'axios';
-import { ServiceBase } from './ServiceBase';
 
-export class EstadoService extends ServiceBase {
-
-    constructor() {
-        super("estado");
-    }
-
+export class EstadoService {
     url = 'http://localhost:8080/api/estado';
 
 

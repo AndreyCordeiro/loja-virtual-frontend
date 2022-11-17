@@ -1,12 +1,6 @@
 import axios from 'axios';
-import { ServiceBase } from './ServiceBase';
 
-export class CidadeService extends ServiceBase {
-
-    constructor() {
-        super("cidade")
-    }
-
+export class CidadeService {
     url = 'http://localhost:8080/api/cidade';
 
 
