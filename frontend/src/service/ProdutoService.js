@@ -7,6 +7,10 @@ export class ProdutoService {
         return axios.get(this.url);
     }
 
+    buscarPorId(produtoId) {
+        return axios.get(this.url + '/' + produtoId);
+    }
+
     inserir(objeto) {
         return axios.post(this.url + '/cadastrar', objeto);
     }

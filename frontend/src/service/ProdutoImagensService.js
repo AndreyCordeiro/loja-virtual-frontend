@@ -1,19 +1,26 @@
 import axios from 'axios';
 
 export class ProdutoImagensService {
-    uploadImagens(obj) {
+    url = 'http://localhost:8080/api/imagem';
+
+    salvarImagem(obj) {
         const formData = new FormData();
+
         formData.append('idProduto', obj.idProduto);
-        formData.append('file', obj.file);
+        formData.append('arquivo', obj.file);
         const config = {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         }
-        return axios.post(this.url, formData, config);
+        return axios.post(this.url + "/cadastrar", formData, config);
     }
 
-    buscarPorProduto(idProduto) {
-        return axios.get(this.url + "produto/" + idProduto);
+    buscarPorProdutoId(idProduto) {
+        return axios.get(this.url + "/produto/" + idProduto);
+    }
+
+    excluir(idProduto) {
+        return axios.delete(this.url + "/deletar/" + idProduto);
     }
 }
