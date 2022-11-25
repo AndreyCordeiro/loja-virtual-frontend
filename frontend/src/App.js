@@ -31,6 +31,8 @@ import './assets/demo/flags/flags.css';
 import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
 import './App.scss';
+import {LoginService} from "./service/LoginService";
+import Login from "./pages/Login";
 
 
 const App = () => {
@@ -44,6 +46,7 @@ const App = () => {
     const [mobileTopbarMenuActive, setMobileTopbarMenuActive] = useState(false);
     const copyTooltipRef = useRef();
     const location = useLocation();
+    const loginService = new LoginService();
 
     PrimeReact.ripple = true;
 
@@ -199,44 +202,54 @@ const App = () => {
         'layout-theme-light': layoutColorMode === 'light'
     });
 
-    return (
-        <div className={wrapperClass} onClick={onWrapperClick}>
-            <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus"/>
+    const Pagina = () => {
+        return (
+            <div className={wrapperClass} onClick={onWrapperClick}>
+                <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus"/>
 
-            <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
-                       mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick}/>
+                <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
+                           mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick}/>
 
-            <div className="layout-sidebar" onClick={onSidebarClick}>
-                <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode}/>
-            </div>
-
-            <div className="layout-main-container">
-                <div className="layout-main">
-                    <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location}/>}/>
-                    <Route path="/estados" component={Estado}/>
-                    <Route path="/cidades" component={Cidade}/>
-                    <Route path="/marcas" component={Marca}/>
-                    <Route path="/categorias" component={Categoria}/>
-                    <Route path="/produtos" component={Produto}/>
-                    <Route path="/permissoes" component={Permissao}/>
-                    <Route path="/pessoas" component={Pessoa}/>
-                    <Route path="/produtoImagens/:id" component={ProdutoImagens}/>
-
+                <div className="layout-sidebar" onClick={onSidebarClick}>
+                    <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode}/>
                 </div>
 
-                <AppFooter layoutColorMode={layoutColorMode}/>
+                <div className="layout-main-container">
+                    <div className="layout-main">
+                        <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location}/>}/>
+                        <Route path="/estados" component={Estado}/>
+                        <Route path="/cidades" component={Cidade}/>
+                        <Route path="/marcas" component={Marca}/>
+                        <Route path="/categorias" component={Categoria}/>
+                        <Route path="/produtos" component={Produto}/>
+                        <Route path="/permissoes" component={Permissao}/>
+                        <Route path="/pessoas" component={Pessoa}/>
+                        <Route path="/produtoImagens/:id" component={ProdutoImagens}/>
+                        <Route path="/login" component={Login}/>
+                    </div>
+
+                    <AppFooter layoutColorMode={layoutColorMode}/>
+                </div>
+                <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+                           layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange}/>
+
+                <CSSTransition classNames="layout-mask" timeout={{enter: 200, exit: 200}} in={mobileMenuActive} unmountOnExit>
+                    <div className="layout-mask p-component-overlay"></div>
+                </CSSTransition>
             </div>
+        )
+    }
 
-            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                       layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange}/>
-
-            <CSSTransition classNames="layout-mask" timeout={{enter: 200, exit: 200}} in={mobileMenuActive} unmountOnExit>
-                <div className="layout-mask p-component-overlay"></div>
-            </CSSTransition>
-
+    return (
+        <div>
+            {
+                loginService.autenticado() ?
+                    <Pagina/>
+                    :
+                    <Login/>
+            }
         </div>
     );
-
 }
 
 export default App;

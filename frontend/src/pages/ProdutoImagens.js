@@ -29,12 +29,12 @@ const ProdutoImagens = () => {
         if (objetos == null) {
             produtoService.buscarPorId(parametros.id).then(result => {
                 setProduto(result.data);
-                buscarPorProduto(result.data.id);
+                buscarPorProdutoId(result.data.id);
             });
         }
     }, [objetos]);
 
-    const buscarPorProduto = (idProduto) => {
+    const buscarPorProdutoId = (idProduto) => {
         produtoImagensService.buscarPorProdutoId(idProduto).then(result => {
             setObjetos(result.data);
         })
