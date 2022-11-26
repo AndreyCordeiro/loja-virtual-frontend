@@ -7,12 +7,16 @@ export class SolicitarCodigoService {
         window.location.href = "/solicitar-codigo";
     }
 
+    telaResetarSenha() {
+        window.location.href = "/alterar-senha";
+    }
+
     solicitarCodigo(objeto, mostrarMensagemAviso, mensagemErro, mostrarMensagemSucesso) {
         mostrarMensagemAviso();
-        return axios.post(this.url + '/senha-codigo', objeto).then(rest => {
+        return axios.post(this.url + '/senha-codigo', objeto).then(res => {
             mostrarMensagemSucesso();
         }).catch(error => {
-            mensagemErro(error.response.data.message);
+            mensagemErro();
         });
     }
 }

@@ -23,16 +23,20 @@ const SolicitarCodigo = () => {
         });
     }
 
+    const recuperarSenha = () => {
+        solicitarCodigoService.telaResetarSenha();
+    }
+
     const mostrarMensagemAviso = () => {
         toast.current.show({severity: 'warn', summary: 'Aviso', detail: 'Enviando email, aguarde um instante...', life: 15000});
     }
 
     const mostrarMensagemSucesso = () => {
-        toast.current.show({severity: 'success', summary: 'Sucesso', detail: 'Email enviado com sucesso', life: 3000});
+        toast.current.show({severity: 'success', summary: 'Sucesso', detail: 'Email enviado com sucesso.', life: 3000});
     }
 
-    const mostrarMensagemErro = (erro) => {
-        toast.current.show({severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao enviar o email, verifique se está correto ou cadastrado.', life: 5000});
+    const mostrarMensagemErro = () => {
+        toast.current.show({severity: 'error', summary: 'Erro', detail: 'Verifique se o email está correto ou cadastrado.', life: 5000});
     }
 
     return (
@@ -41,14 +45,17 @@ const SolicitarCodigo = () => {
             <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
                 <div className="text-center mb-5">
                     <img src="images/digital-nomad-rafiki.svg" alt="hyper" height="160" className="mb-3"/>
-                    <div className="text-900 text-3xl font-medium mb-3">Solicite o código para recuperação de senha!</div>
+                    <div className="text-900 text-3xl font-medium mb-3">Código para recuperação de senha.</div>
                 </div>
 
                 <div>
                     <label htmlFor="email1" className="block text-900 font-medium mb-2">Email</label>
                     <InputText id="email1" type="text" className="w-full mb-3" onChange={(e) => setEmail(e.target.value)}/>
 
-                    <Button onClick={() => enviarCodigo()} label="Enviar Código" className="w-full"/>
+                    <Button onClick={() => enviarCodigo()} label="Enviar Código" className="w-full mb-3"/>
+                </div>
+                <div>
+                    <Button onClick={() => recuperarSenha()} label="Recebi meu código, próximo passo." className="w-full mb-3"/>
                 </div>
             </div>
         </div>

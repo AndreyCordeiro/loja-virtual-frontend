@@ -3,15 +3,21 @@ import {InputText} from 'primereact/inputtext';
 import {Toast} from 'primereact/toast';
 import React, {useRef, useState} from 'react';
 import {LoginService} from "../service/LoginService";
+import {SolicitarCodigoService} from "../service/SolicitarCodigoService";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const loginService = new LoginService();
+    const solicitarCodigoService = new SolicitarCodigoService();
     const toast = useRef(null);
 
     const fazerLogin = () => {
         loginService.login(email, senha, mostrarMensagemErro);
+    }
+
+    const telaSolicitarCodigo = () => {
+        solicitarCodigoService.telaSolicitarCodigo();
     }
 
     const mostrarMensagemErro = (erro) => {
@@ -35,7 +41,7 @@ const Login = () => {
                     <InputText id="password1" type="password" className="w-full mb-3" onChange={(e) => setSenha(e.target.value)}/>
 
                     <div className="flex align-items-center justify-content-between mb-6">
-                        <button className="p-link font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer" onClick={() => fazerLogin()}>Recuperar senha</button>
+                        <button className="p-link font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer" onClick={() => telaSolicitarCodigo()}>Recuperar senha</button>
                     </div>
 
                     <Button onClick={() => fazerLogin()} label="Sign In" icon="pi pi-user" className="w-full"/>
