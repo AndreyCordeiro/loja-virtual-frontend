@@ -8,6 +8,7 @@ import {Toast} from 'primereact/toast';
 import {Toolbar} from 'primereact/toolbar';
 import React, {useEffect, useRef, useState} from 'react';
 import {PermissaoService} from '../service/PermissaoService';
+import ColunaOpcoes from "../components/ColunaOpcoes";
 
 const Permissao = () => {
     let objetoNovo = {
@@ -124,15 +125,6 @@ const Permissao = () => {
         );
     }
 
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editObjeto(rowData)}/>
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning mt-2" onClick={() => confirmDeleteObjeto(rowData)}/>
-            </div>
-        );
-    }
-
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 className="m-0">Registros Cadastrados</h5>
@@ -171,7 +163,9 @@ const Permissao = () => {
                                globalFilter={globalFilter} emptyMessage="Sem objetos cadastrados." header={header} responsiveLayout="scroll">
                         <Column field="id" header="ID" sortable body={idBodyTemplate} headerStyle={{width: '14%', minWidth: '10rem'}}></Column>
                         <Column field="nome" header="Nome" sortable body={nomeBodyTemplate} headerStyle={{width: '14%', minWidth: '10rem'}}></Column>
-                        <Column body={actionBodyTemplate}></Column>
+                        <Column body={rowData => {
+                            return <ColunaOpcoes rowData={rowData} editObjeto={editObjeto} confirmDeleteObjeto={confirmDeleteObjeto}/>
+                        }}></Column>
                     </DataTable>
 
                     <Dialog visible={objetoDialog} style={{width: '450px'}} header="Cadastrar/Editar" modal className="p-fluid" footer={objetoDialogFooter} onHide={hideDialog}>
