@@ -1,21 +1,41 @@
 import axios from "axios";
+import {LoginService} from "./LoginService";
 
 export class MarcaService {
     url = 'http://localhost:8080/api/marca';
 
+    constructor() {
+        this.inicializarAxios();
+    }
+
+    inicializarAxios() {
+        this.axiosInstance = axios.create({
+            baseURL: this.url,
+        });
+
+        this.axiosInstance.interceptors.request.use((config) => {
+                const token = new LoginService().getToken();
+                const authRequestToken = token ? `Bearer ${token}` : '';
+                config.headers.common['Authorization'] = authRequestToken;
+                return config;
+            },
+            (error) => Promise.reject(error)
+        );
+    }
+
     listarTodos() {
-        return axios.get(this.url);
+        return this.axiosInstance.get(this.url);
     }
 
     inserir(objeto) {
-        return axios.post(this.url + '/cadastrar', objeto);
+        return this.axiosInstance.post(this.url + '/cadastrar', objeto);
     }
 
     alterar(objeto) {
-        return axios.put(this.url + '/atualizar/' + objeto.id, objeto);
+        return this.axiosInstance.put(this.url + '/atualizar/' + objeto.id, objeto);
     }
 
     excluir(id) {
-        return axios.delete(this.url + '/deletar/' + id);
+        return this.axiosInstance.delete(this.url + '/deletar/' + id);
     }
 }
