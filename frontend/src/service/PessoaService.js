@@ -6,6 +6,7 @@ export class PessoaService {
 
     constructor() {
         this.inicializarAxios();
+        this.tratamentoErro401();
     }
 
     inicializarAxios() {
@@ -21,6 +22,21 @@ export class PessoaService {
             },
             (error) => Promise.reject(error)
         );
+    }
+
+    tratamentoErro401() {
+        this.axiosInstance.interceptors.response.use((response) => {
+            return response;
+        }, (erro) => {
+            console.log(erro.response.status);
+            if (erro.response.status === 401) {
+                if (!erro.request.response.includes("gerenciamento/login")) {
+                    new LoginService().sair();
+                    window.location.href = "/";
+                }
+            }
+            return Promise.reject(erro);
+        });
     }
 
     listarTodos() {

@@ -38,6 +38,7 @@ export class LoginService {
 
     sair() {
         localStorage.removeItem(this.CHAVE_TOKEN);
+        document.location.reload(true);
     }
 
     getToken() {
